@@ -1,0 +1,1220 @@
+<!DOCTYPE html><html lang="en"><head>
+
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ritika Khosla — UX Researcher</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+    :root {
+      --cream:    #F5EDD8;
+      --cream2:   #EDE5CE;
+      --ink:      #1B3A52;
+      --terra:    #2E6E8E;
+      --sage:     #7EB8E0;
+      --sand:     #D8CCBA;
+      --warm-mid: #4A6275;
+      --white:    #FAF8F2;
+      --accent:   #F0A96A;
+    }
+ 
+    html { scroll-behavior: smooth; }
+ 
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+ 
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 999; opacity: 0.4;
+    }
+ 
+    /* ── VIEWS ── */
+    .view { display: none; }
+    .view.active { display: block; }
+ 
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.4rem 5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(46,110,142,0.95);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(46,110,142,0.2);
+    }
+    .nav-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; font-weight: 400;
+      color: white; text-decoration: none;
+      cursor: pointer;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+    .nav-links a {
+      text-decoration: none; color: rgba(255,255,255,0.85);
+      font-size: 0.8rem; font-weight: 500;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      transition: color 0.2s; cursor: pointer;
+    }
+    .nav-links a:hover { color: white; }
+    .nav-cta {
+      background: white !important; color: var(--terra) !important;
+      padding: 0.5rem 1.2rem; border-radius: 2rem;
+    }
+    .nav-cta:hover { opacity: 0.88; }
+ 
+    /* ── SHARED BUTTONS ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.9rem 2rem; border-radius: 2rem;
+      font-size: 0.88rem; font-weight: 500;
+      text-decoration: none; transition: all 0.25s;
+      cursor: pointer; border: none; font-family: inherit;
+    }
+    .btn-primary { background: var(--terra); color: #fff; }
+    .btn-primary:hover { background: #2d4330; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(61,90,64,0.3); }
+    .btn-outline { background: transparent; color: var(--ink); border: 1.5px solid var(--sand); }
+    .btn-outline:hover { border-color: var(--terra); color: var(--terra); transform: translateY(-2px); }
+ 
+    /* ── SECTION COMMON ── */
+    section { padding: 4rem 5rem; }
+    .section-tag {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      color: var(--terra); font-size: 0.76rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem;
+    }
+    .section-tag span { width: 24px; height: 1.5px; background: var(--terra); display: inline-block; }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 400; letter-spacing: -0.02em; line-height: 1.15;
+    }
+    h2 em { font-style: italic; color: var(--terra); }
+ 
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+ 
+    /* ════════════════════════════
+       HOME VIEW
+    ════════════════════════════ */
+ 
+    /* HERO */
+    .hero {
+      min-height: 60vh;
+      padding: 8rem 5rem 4rem;
+      display: grid; grid-template-columns: 1fr 0.8fr;
+      gap: 4rem; align-items: start; position: relative;
+    }
+    .hero-blob {
+      position: absolute; top: 5%; right: 0;
+      width: 55vw; height: 80vh;
+      background: radial-gradient(ellipse at 60% 40%, rgba(184,92,56,0.08) 0%, rgba(196,154,108,0.06) 50%, transparent 75%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      color: var(--accent); font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 1.8rem;
+      animation: fadeUp 0.7s ease both;
+    }
+    .hero-eyebrow span { width: 28px; height: 1.5px; background: var(--accent); display: inline-block; }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 5.5vw, 5rem); font-weight: 400;
+      line-height: 1.08; letter-spacing: -0.02em; margin-bottom: 2rem;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+    .hero h1 em { font-style: italic; color: var(--terra); }
+    .hero-desc {
+      font-size: 1.05rem; color: var(--warm-mid);
+      max-width: 500px; line-height: 1.8; margin-bottom: 2.8rem;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+    .hero-tags {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+      margin-bottom: 2.8rem;
+      animation: fadeUp 0.7s 0.25s ease both;
+    }
+    .tag {
+      background: var(--cream2); border: 1px solid var(--sand);
+      color: var(--warm-mid); font-size: 0.76rem; font-weight: 500;
+      padding: 0.35rem 0.9rem; border-radius: 2rem; letter-spacing: 0.02em;
+    }
+    .tag-highlight {
+      background: rgba(184,92,56,0.1); border-color: rgba(184,92,56,0.3);
+      color: var(--terra);
+    }
+    .hero-actions { display: flex; gap: 1rem; animation: fadeUp 0.7s 0.3s ease both; }
+ 
+    /* hero right — photo */
+    .hero-right {
+      position: relative; animation: fadeUp 0.7s 0.2s ease both;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .hero-portrait {
+      width: 100%; aspect-ratio: 4/5; border-radius: 28px;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--cream2) 0%, var(--sand) 100%);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+    .portrait-placeholder {
+      display: flex; flex-direction: column; align-items: center; gap: 0.8rem;
+      color: var(--warm-mid); font-size: 0.78rem; font-weight: 500;
+      text-align: center; padding: 2rem;
+      border: 2px dashed var(--sand); border-radius: 28px;
+      width: 100%; aspect-ratio: 4/5; justify-content: center;
+    }
+    .portrait-placeholder span { font-size: 3rem; }
+    .portrait-placeholder code {
+      background: var(--cream2); padding: 0.3rem 0.6rem;
+      border-radius: 6px; font-size: 0.72rem;
+      font-family: monospace; color: var(--terra);
+    }
+    .hero-sf-strip {
+      width: 100%; height: auto; border-radius: 20px;
+      overflow: hidden; position: relative;
+      background: linear-gradient(135deg, var(--cream2) 0%, var(--sand) 100%);
+    }
+    .hero-sf-strip img { width: 100%; height: 100%; object-fit: cover; object-position: center 60%; }
+    .sf-placeholder {
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      color: var(--warm-mid); font-size: 0.75rem; font-weight: 500;
+      text-align: center; border: 2px dashed var(--sand); border-radius: 20px;
+      width: 100%; height: 130px; justify-content: center; padding: 1rem;
+    }
+    .sf-placeholder span { font-size: 1.6rem; }
+    .sf-placeholder code {
+      background: var(--cream2); padding: 0.2rem 0.5rem;
+      border-radius: 6px; font-size: 0.68rem;
+      font-family: monospace; color: var(--terra);
+    }
+    .hero-location-badge {
+      position: absolute; bottom: 14px; left: 14px;
+      background: rgba(247,249,243,0.92); backdrop-filter: blur(8px);
+      border-radius: 2rem; padding: 0.4rem 1rem;
+      font-size: 0.75rem; font-weight: 500; color: var(--ink);
+      display: flex; align-items: center; gap: 0.4rem;
+      border: 1px solid rgba(61,90,64,0.15);
+    }
+ 
+    /* WORK */
+    .work { background: var(--white); padding-top: 2rem; }
+    .work-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 4rem;
+    }
+    .case-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .case-card {
+      border-radius: 24px; overflow: hidden;
+      background: var(--cream); border: 1px solid var(--sand);
+      transition: transform 0.3s, box-shadow 0.3s;
+      text-decoration: none; color: inherit;
+      display: flex; flex-direction: column; cursor: pointer;
+    }
+    .case-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(26,23,20,0.1); }
+    .case-img { width: 100%; aspect-ratio: 16/8; background: var(--cream2); overflow: hidden; }
+    
+    .case-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+    .case-card:hover .case-img img { transform: scale(1.03); }
+    .case-img-bg {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem;
+    }
+    .case-body { padding: 2rem 2.2rem; flex: 1; }
+    .case-meta { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; }
+    .case-method {
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--terra); background: rgba(61,90,64,0.1);
+      padding: 0.25rem 0.75rem; border-radius: 2rem;
+    }
+    .case-date { font-size: 0.78rem; color: var(--warm-mid); }
+    .case-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.45rem; font-weight: 500;
+      line-height: 1.25; margin-bottom: 0.8rem; letter-spacing: -0.01em;
+    }
+    .case-body p { font-size: 0.9rem; color: var(--warm-mid); line-height: 1.7; margin-bottom: 1.5rem; }
+    .case-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 1.2rem; border-top: 1px solid var(--sand);
+    }
+    .case-outcome { font-size: 0.8rem; font-weight: 600; color: var(--sage); display: flex; align-items: center; gap: 0.4rem; }
+    .case-outcome::before { content: '↗'; }
+    .case-link { font-size: 0.8rem; font-weight: 600; color: var(--terra); display: flex; align-items: center; gap: 0.3rem; }
+    .case-link::after { content: '→'; transition: transform 0.2s; }
+    .case-card:hover .case-link::after { transform: translateX(4px); }
+ 
+    /* QUALITIES */
+    .methods { background: var(--white); }
+    .methods-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3.5rem; }
+    .method-card {
+      border-radius: 20px; padding: 2.4rem;
+      border: 1px solid var(--sand);
+      transition: transform 0.25s, box-shadow 0.25s;
+      position: relative; overflow: hidden;
+    }
+    .method-card:nth-child(1) { background: #D6E4EF; color: var(--ink); }
+    .method-card:nth-child(2) { background: #D6E4EF; color: var(--ink); }
+    .method-card:nth-child(3) { background: #D6E4EF; color: var(--ink); }
+    .method-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(44,31,20,0.12); }
+    .method-icon { font-size: 1.8rem; margin-bottom: 1.4rem; display: block; }
+    .method-card h4 { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 500; margin-bottom: 1rem; line-height: 1.25; }
+    .method-card p { font-size: 0.85rem; line-height: 1.7; opacity: 0.85; }
+    .method-card:nth-child(1) p, .method-card:nth-child(3) p { opacity: 1; }
+    .method-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.2rem; }
+    .method-tag {
+      font-size: 0.72rem; font-weight: 500; padding: 0.25rem 0.7rem;
+      border-radius: 2rem; border: 1px solid;
+    }
+    .method-card:nth-child(1) .method-tag { border-color: rgba(46,110,142,0.3); color: var(--terra); background: rgba(255,255,255,0.5); }
+    .method-card:nth-child(2) .method-tag { border-color: rgba(46,110,142,0.3); color: var(--terra); background: rgba(255,255,255,0.5); }
+    .method-card:nth-child(3) .method-tag { border-color: rgba(46,110,142,0.3); color: var(--terra); background: rgba(255,255,255,0.5); }
+
+    /* FUN */
+    .fun { background: var(--cream); }
+    .fun-mosaic {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: 260px 260px;
+      gap: 8px;
+      margin-top: 3rem;
+    }
+    .fun-mosaic .fm-wide { grid-column: span 2; }
+    .fun-photo {
+      overflow: hidden; border-radius: 12px;
+      position: relative;
+    }
+    .fun-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+      display: block;
+    }
+    .fun-photo:hover img { transform: scale(1.04); }
+ 
+    /* ABOUT */
+    .about { background: var(--cream2); color: var(--ink); }
+    .about .section-tag { color: var(--terra); }
+    .about .section-tag span { background: var(--terra); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; margin-top: 3.5rem; }
+    .about h2 { color: var(--ink); }
+    .about-bio { font-size: 1.05rem; color: var(--warm-mid); line-height: 1.85; margin-top: 1.5rem; }
+    .about-bio strong { color: var(--ink); font-weight: 500; }
+    .exp-list { margin-top: 2.5rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+    .exp-item {
+      background: var(--white); border: 1px solid var(--sand);
+      border-radius: 16px; padding: 1.8rem 1.6rem;
+      display: flex; flex-direction: column; gap: 0.5rem;
+      cursor: default;
+    }
+    .exp-logo { height: 38px; width: auto; max-width: 130px; object-fit: contain; object-position: left; margin-bottom: 0.5rem; }
+    .exp-role { font-size: 0.84rem; font-weight: 600; color: var(--ink); }
+    .exp-company { font-size: 0.76rem; color: var(--terra); font-weight: 500; }
+    .exp-period { font-size: 0.72rem; color: var(--warm-mid); opacity: 0.65; }
+    .edu-block { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1.2rem; }
+    .edu-item {
+      background: var(--white); border: 1px solid var(--sand);
+      border-radius: 14px; padding: 1.2rem 1.5rem;
+    }
+    .edu-degree { font-size: 0.88rem; font-weight: 600; color: var(--ink); margin-bottom: 0.25rem; }
+    .edu-school { font-size: 0.8rem; color: var(--warm-mid); }
+ 
+    /* CONTACT */
+    .contact { background: var(--white); }
+    .contact-inner { max-width: 760px; }
+    .contact-inner h2 { margin: 1rem 0 1.5rem; }
+    .contact-inner p { font-size: 1rem; color: var(--warm-mid); line-height: 1.75; margin-bottom: 2.5rem; }
+    .contact-links { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+    .contact-link {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.9rem 2rem; border-radius: 2rem;
+      text-decoration: none; font-size: 0.9rem; font-weight: 500;
+      transition: all 0.25s;
+    }
+    .cl-primary { background: var(--terra); color: white; }
+    .cl-primary:hover { background: #2d4330; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(61,90,64,0.3); }
+    .cl-outline { border: 1.5px solid var(--sand); color: var(--ink); }
+    .cl-outline:hover { border-color: var(--terra); color: var(--terra); transform: translateY(-2px); }
+ 
+    /* FOOTER */
+    footer {
+      background: var(--ink); color: rgba(239,242,232,0.4);
+      padding: 2rem 5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.78rem;
+    }
+    footer a { color: rgba(239,242,232,0.4); text-decoration: none; }
+    footer a:hover { color: var(--terra); }
+ 
+    /* ════════════════════════════
+       CASE STUDY VIEW
+    ════════════════════════════ */
+    .cs-view { animation: fadeIn 0.4s ease; }
+ 
+    .cs-back {
+      position: fixed; top: 5.5rem; left: 5rem; z-index: 90;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--white); color: var(--ink);
+      border: 1px solid var(--sand); border-radius: 2rem;
+      padding: 0.55rem 1.2rem; font-size: 0.82rem; font-weight: 500;
+      cursor: pointer; text-decoration: none;
+      transition: all 0.2s; box-shadow: 0 2px 12px rgba(26,23,20,0.08);
+    }
+    .cs-back:hover { background: var(--terra); color: white; border-color: var(--terra); }
+    .cs-back::before { content: '←'; }
+ 
+    .cs-hero {
+      padding: 9rem 5rem 5rem;
+      background: var(--white);
+      border-bottom: 1px solid var(--sand);
+    }
+    .cs-hero-inner { max-width: 860px; }
+    .cs-meta { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .cs-tag {
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.07em;
+      text-transform: uppercase; padding: 0.3rem 0.9rem;
+      border-radius: 2rem; border: 1px solid;
+    }
+    .cs-tag-method { color: var(--terra); background: rgba(61,90,64,0.1); border-color: rgba(61,90,64,0.2); }
+    .cs-tag-org    { color: var(--accent); background: rgba(122,96,64,0.1); border-color: rgba(122,96,64,0.2); }
+    .cs-tag-year   { color: var(--warm-mid); background: var(--cream2); border-color: var(--sand); }
+ 
+    .cs-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 4vw, 3.6rem); font-weight: 400;
+      letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 1.5rem;
+    }
+    .cs-hero h1 em { font-style: italic; color: var(--terra); }
+    .cs-hero-desc { font-size: 1.1rem; color: var(--warm-mid); max-width: 680px; line-height: 1.8; }
+ 
+    .cs-stats {
+      display: flex; gap: 3rem; margin-top: 3.5rem;
+      padding-top: 3rem; border-top: 1px solid var(--sand);
+      flex-wrap: wrap;
+    }
+    .cs-stat-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--warm-mid); margin-bottom: 0.4rem; }
+    .cs-stat-value { font-size: 1rem; font-weight: 500; color: var(--ink); }
+ 
+    /* Case study body */
+    .cs-body { max-width: 760px; margin: 0 auto; padding: 5rem; }
+    .cs-section { margin-bottom: 4rem; }
+    .cs-section-label {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--terra);
+      margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.6rem;
+    }
+    .cs-section-label::before {
+      content: ''; display: inline-block;
+      width: 20px; height: 1.5px; background: var(--terra);
+    }
+    .cs-section h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 400; letter-spacing: -0.01em;
+      line-height: 1.3; margin-bottom: 1.2rem;
+    }
+    .cs-section p { font-size: 0.98rem; color: var(--warm-mid); line-height: 1.85; margin-bottom: 1rem; }
+    .cs-section p strong { color: var(--ink); font-weight: 600; }
+ 
+    .cs-callout {
+      background: var(--cream2); border-left: 3px solid var(--terra);
+      border-radius: 0 12px 12px 0; padding: 1.5rem 1.8rem;
+      margin: 2rem 0; font-size: 0.98rem; color: var(--warm-mid); line-height: 1.8;
+    }
+    .cs-callout strong { color: var(--ink); }
+ 
+    .cs-finding-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: 1.5rem; }
+    .cs-finding {
+      background: var(--white); border: 1px solid var(--sand);
+      border-radius: 16px; padding: 1.5rem;
+    }
+    .cs-finding-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; font-weight: 400; color: rgba(61,90,64,0.2);
+      line-height: 1; margin-bottom: 0.8rem;
+    }
+    .cs-finding h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .cs-finding p  { font-size: 0.82rem; color: var(--warm-mid); line-height: 1.65; margin: 0; }
+ 
+    .cs-impact-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.2rem; margin-top: 1.5rem; }
+    .cs-impact-card {
+      background: var(--terra); color: white;
+      border-radius: 16px; padding: 1.5rem; text-align: center;
+    }
+    .cs-impact-card:nth-child(2) { background: var(--sage); }
+    .cs-impact-card:nth-child(3) { background: var(--accent); }
+    .cs-impact-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 400; display: block; margin-bottom: 0.4rem; }
+    .cs-impact-label { font-size: 0.78rem; opacity: 0.85; line-height: 1.4; }
+ 
+    .cs-fill-note {
+      background: rgba(122,96,64,0.08); border: 1.5px dashed rgba(122,96,64,0.3);
+      border-radius: 10px; padding: 1rem 1.2rem;
+      font-size: 0.8rem; color: var(--accent); line-height: 1.6;
+      margin: 1rem 0;
+    }
+    .cs-fill-note strong { font-weight: 600; }
+ 
+    .cs-nav-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 3rem 5rem; border-top: 1px solid var(--sand);
+      background: var(--white); margin-top: 3rem;
+    }
+    .cs-nav-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.85rem; font-weight: 500; color: var(--warm-mid);
+      cursor: pointer; text-decoration: none; transition: color 0.2s;
+      background: none; border: none; font-family: inherit;
+    }
+    .cs-nav-btn:hover { color: var(--terra); }
+    .cs-nav-btn.next { flex-direction: row-reverse; }
+ 
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 2rem; }
+      .hero { grid-template-columns: 1fr; padding: 8rem 2rem 4rem; gap: 3rem; }
+      .hero-right { display: none; }
+      section { padding: 5rem 2rem; }
+      .work-header { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+      .case-grid { grid-template-columns: 1fr; }
+      .case-grid .case-card:first-child { grid-column: 1; }
+      .methods-grid { grid-template-columns: 1fr 1fr; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.5rem 2rem; }
+      .cs-back { left: 1.5rem; }
+      .cs-hero { padding: 8rem 2rem 3rem; }
+      .cs-body { padding: 3rem 2rem; }
+      .cs-finding-grid { grid-template-columns: 1fr; }
+      .cs-impact-grid { grid-template-columns: 1fr; }
+      .cs-stats { gap: 1.5rem; }
+      .cs-nav-footer { padding: 2rem; }
+    }
+  </style>
+</head>
+<body>
+ 
+  <!-- NAV -->
+  <nav>
+    <span class="nav-name" onclick="goHome()" style="font-family: 'Playfair Display';">Ritika Khosla</span>
+    <ul class="nav-links">
+      <li><a onclick="goHome(); setTimeout(()=&gt;scrollTo('#work'),300)">Work</a></li>
+      <li><a onclick="goHome(); setTimeout(()=&gt;scrollTo('#methods'),300)">Qualities</a></li>
+      <li><a onclick="goHome(); setTimeout(()=&gt;scrollTo('#fun'),300)">Life</a></li>
+      <li><a onclick="goHome(); setTimeout(()=&gt;scrollTo('#about'),300)">About</a></li>
+      <li><a onclick="goHome(); setTimeout(()=&gt;scrollTo('#contact'),300)" class="nav-cta">Say Hello</a></li>
+    </ul>
+  </nav>
+ 
+  <!-- ══════════ HOME VIEW ══════════ -->
+  <div id="view-home" class="view active">
+ 
+    <section class="hero" style="background-color: rgb(217, 214, 212);">
+      <div class="hero-blob"></div>
+      <div class="hero-left">
+        <div class="hero-eyebrow" style="color: rgb(58, 90, 129);"><span></span> UX Researcher · Oracle</div>
+        <h1 style="color: rgb(42, 87, 110);">I connect<br><em style="color: rgb(57, 116, 146);">people, teams</em><br>and insight.</h1>
+        <p class="hero-desc">
+          Hi, I'm Ritika — a UX Researcher at Oracle with a behavioral science lens.
+          I specialize in translating user insights into product decisions, and bringing
+          design, product, and engineering teams along for the journey.
+        </p>
+        <div class="hero-tags">
+          <span class="tag tag-highlight">Enterprise B2B</span>
+          <span class="tag">Behavioral Science</span>
+          <span class="tag">Mixed Methods</span>
+          <span class="tag">Cross-functional Collaboration</span>
+          <span class="tag">UPenn MBDS</span>
+        </div>
+        <div class="hero-actions">
+          <a onclick="scrollTo('#work')" class="btn btn-primary" style="background-color: rgb(57, 89, 128);">View My Work</a>
+          <a onclick="scrollTo('#contact')" class="btn btn-outline">Get In Touch</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-portrait" style="height: 300px;"><img src="uploads/ritika.png" alt="Ritika Khosla" style="width: 400px; height: 300px;"></div>
+        <!-- ✏️ SF IMAGE: Replace sf-placeholder div with:
+             <div class="hero-sf-strip"><img src="sf.jpg" alt="San Francisco"/>
+             <div class="hero-location-badge">📍 San Francisco, CA</div></div> -->
+        <div style="position:relative;">
+          <div class="hero-sf-strip"><img src="uploads/gg.webp" alt="San Francisco" style="width: 100%; height: auto; display: block;"/></div>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- WORK -->
+    <section class="work" id="work" style="background-color: rgb(251, 250, 246);">
+      <div class="work-header reveal visible">
+        <div>
+          <div class="section-tag"><span></span> Selected Work</div>
+          <h2>Research that moves<br><em style="color: rgb(86, 93, 114);">teams forward</em></h2>
+        </div>
+        <p style="max-width:320px;color:var(--warm-mid);font-size:0.9rem;line-height:1.7;width:800px;">
+          Four case studies from real-world enterprise research — grounded in collaboration and behavioral rigor.
+        </p>
+      </div>
+      <div class="case-grid">
+ 
+        <!-- Case 1 - Featured -->
+        <div class="case-card reveal visible" onclick="openCase('suiteworld')">
+          <div class="case-img">
+            <img src="uploads/74A4182D-ECEA-486E-B30A-8E4C8DD6F963_1_102_o.jpeg" alt="UX Labs at SuiteWorld" loading="lazy" style="object-position: top;"/>
+          </div>
+          <div class="case-body">
+            <div class="case-meta">
+              <span class="case-method">Usability Testing</span>
+              <span class="case-date">Sep 2024 · Oracle</span>
+            </div>
+            <h3>UX Labs at SuiteWorld</h3>
+            <p>Designed and facilitated in-person design feedback sessions at Oracle's flagship conference. Gathered qualitative insights from enterprise users to directly influence product roadmap decisions.</p>
+            <div class="case-footer">
+              <span class="case-outcome">Direct product roadmap impact</span>
+              <span class="case-link">Read case study</span>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- Case 2 -->
+        <div class="case-card reveal reveal-delay-1 visible" onclick="openCase('genai')">
+          <div class="case-img">
+            <img src="https://framerusercontent.com/images/vErWMlZg9H8dk4X7czN3mcHIFYM.png" alt="GenAI Summaries" loading="lazy" onerror="this.parentElement.innerHTML='&lt;div class=\'case-img-bg\' style=\'background:linear-gradient(135deg,#E4E9DA,#C8CEBC)\'&gt;🤖&lt;/div&gt;'">
+          </div>
+          <div class="case-body">
+            <div class="case-meta">
+              <span class="case-method">Card Sort</span>
+              <span class="case-date">Apr 2025 · Oracle</span>
+            </div>
+            <h3>Shaping GenAI Summaries</h3>
+            <p>Led an unmoderated card sort to uncover users' mental models around GenAI-generated summaries, informing how the product team approached AI feature design.</p>
+            <div class="case-footer">
+              <span class="case-outcome">Informed GenAI feature design</span>
+              <span class="case-link">Read case study</span>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- Case 3 -->
+        <div class="case-card reveal reveal-delay-2 visible" onclick="openCase('democratization')">
+          <div class="case-img">
+            <img src="https://framerusercontent.com/images/bUWu7S0nt8aC7Z0uFaTUYgd32QU.png" alt="Research Democratization" loading="lazy" onerror="this.parentElement.innerHTML='&lt;div class=\'case-img-bg\' style=\'background:linear-gradient(135deg,#E4E9DA,#C8CEBC)\'&gt;🤝&lt;/div&gt;'">
+          </div>
+          <div class="case-body">
+            <div class="case-meta">
+              <span class="case-method">Field Research</span>
+              <span class="case-date">Jun 2025 · Oracle</span>
+            </div>
+            <h3>Research Democratization Program</h3>
+            <p>Established a quarterly field visit program to embed user empathy across cross-functional teams — ensuring research wasn't siloed but lived throughout the product org.</p>
+            <div class="case-footer">
+              <span class="case-outcome">Org-wide empathy program launched</span>
+              <span class="case-link">Read case study</span>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- Case 4 — NetSuite -->
+        <div class="case-card reveal reveal-delay-3 visible" onclick="openCase('netsuite')">
+          <div class="case-img">
+            <img src="uploads/Screenshot 2026-04-21 at 1.39.38 PM.png" alt="NetSuite Website Redesign" loading="lazy"/>
+          </div>
+          <div class="case-body">
+            <div class="case-meta">
+              <span class="case-method">Website Redesign</span>
+              <span class="case-date">2024 · Oracle</span>
+            </div>
+            <h3>NetSuite Website Redesign</h3>
+            <p>Led end-to-end research to redesign NetSuite's marketing website, uncovering navigation and messaging gaps. Presented recommendations directly to the Marketing Group Vice President.</p>
+            <div class="case-footer">
+              <span class="case-outcome">Presented to Marketing GVP</span>
+              <span class="case-link">Read case study</span>
+            </div>
+          </div>
+        </div>
+ 
+      </div>
+    </section>
+ 
+    <!-- QUALITIES -->
+    <section class="methods" id="methods" style="background-color: rgb(212, 211, 206);">
+      <div class="reveal">
+        <div class="section-tag"><span></span> What I Bring</div>
+        <h2>Qualities I bring<br><em>to a team</em></h2>
+      </div>
+      <div class="methods-grid">
+        <div class="method-card reveal reveal-delay-1">
+          <span class="method-icon">🧭</span>
+          <h4>Workshop Facilitation</h4>
+          <p>I lead structured sessions that move teams from ambiguity to alignment — research roadmapping, insight synthesis, and "so what" workshops that turn findings into decisions stakeholders act on.</p>
+          <div class="method-tags">
+            <span class="method-tag">Roadmapping</span>
+            <span class="method-tag">Insight Synthesis</span>
+            <span class="method-tag">Stakeholder Alignment</span>
+          </div>
+        </div>
+        <div class="method-card reveal reveal-delay-2">
+          <span class="method-icon">🔬</span>
+          <h4>Critical Research Mindset</h4>
+          <p>I bring rigor and flexibility across the full spectrum of methods — choosing the right tool for the question, not the other way around.</p>
+          <div class="method-tags">
+            <span class="method-tag">User Interviews</span>
+            <span class="method-tag">Usability Testing</span>
+            <span class="method-tag">Surveys</span>
+            <span class="method-tag">Card Sorting</span>
+            <span class="method-tag">NPS Analysis</span>
+            <span class="method-tag">Competitive Analysis</span>
+          </div>
+        </div>
+        <div class="method-card reveal reveal-delay-3">
+          <span class="method-icon">⚡</span>
+          <h4>Tool Fluency</h4>
+          <p>I stay at the frontier — I presented to my UXR team on integrating AI into our research workflow, and I'm fluent in the tools that make modern research fast and sharp.</p>
+          <div class="method-tags">
+            <span class="method-tag">Claude</span>
+            <span class="method-tag">Codex</span>
+            <span class="method-tag">dScout</span>
+            <span class="method-tag">Miro</span>
+            <span class="method-tag">FigJam</span>
+            <span class="method-tag">Qualtrics</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about" id="about" style="background-color: rgb(251, 250, 246);">
+      <div class="about-grid">
+        <div>
+          <div class="section-tag reveal"><span></span> About Me</div>
+          <h2 class="reveal">Behavioral science<br><em>meets product craft</em></h2>
+          <p class="about-bio reveal">
+            I'm a UX Researcher at <strong>Oracle</strong> with a background at the intersection of
+            behavioral science, psychology, and data. My <strong>Master's in Behavioral and Decision Sciences
+            from Penn</strong> gave me a rigorous framework to understand why people behave the way they do —
+            not just what they do.<br><br>
+            What sets me apart is how I work with teams. I don't just hand over a report —
+            I run workshops, facilitate sessions, and <strong>embed research into the DNA
+            of cross-functional teams</strong> so that user empathy lives in every product decision.
+          </p>
+          <div class="exp-list reveal">
+            <div class="exp-item">
+              <img src="uploads/logo-oracle.png" alt="Oracle" class="exp-logo"/>
+              <div class="exp-role">UX Researcher</div>
+              <div class="exp-company">Oracle</div>
+              <div class="exp-period">Jul 2024–Present</div>
+            </div>
+            <div class="exp-item">
+              <img src="uploads/logo-bcbs.png" alt="Blue Cross Blue Shield" class="exp-logo"/>
+              <div class="exp-role">Behavioral Insights Intern</div>
+              <div class="exp-company">Blue Cross Blue Shield</div>
+              <div class="exp-period">May–Jul 2023</div>
+            </div>
+            <div class="exp-item">
+              <img src="uploads/logo-lenovo2.png" alt="Lenovo" class="exp-logo"/>
+              <div class="exp-role">User Research Intern</div>
+              <div class="exp-company">Lenovo</div>
+              <div class="exp-period">Aug 2022–May 2023</div>
+            </div>
+            <div class="exp-item">
+              <img src="uploads/logo-nielseniq.png" alt="NielsenIQ" class="exp-logo"/>
+              <div class="exp-role">Consumer Insights Intern</div>
+              <div class="exp-company">NielsenIQ</div>
+              <div class="exp-period">Jun–Aug 2022</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="edu-block reveal">
+            <h4 style="color:var(--warm-mid);font-size:0.76rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1rem;">Education</h4>
+            <div class="edu-item">
+              <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:0.5rem;">
+                <img src="uploads/pasted-1776801807767-0.png" alt="UPenn" style="height:36px; width:auto;"/>
+                <div class="edu-degree">M.S. Behavioral and Decision Sciences</div>
+              </div>
+              <div class="edu-school">University of Pennsylvania</div>
+            </div>
+            <div class="edu-item">
+              <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:0.5rem;">
+                <img src="uploads/unc-logo.png" alt="UNC" style="height:36px; width:auto;"/>
+                <div class="edu-degree">B.S. Psychology</div>
+              </div>
+              <div class="edu-school">UNC Chapel Hill · Minors in Data Science &amp; Neuroscience</div>
+            </div>
+          </div>
+          
+        </div>
+    </section>
+
+    <!-- FUN -->
+    <section class="fun" id="fun" style="background-color: rgb(215, 212, 205);">
+      <div class="reveal">
+        <div class="section-tag"><span></span> Beyond Research</div>
+        <h2>Life outside<br><em>the lab</em></h2>
+      </div>
+      <div class="fun-mosaic reveal">
+        <!-- Row 1: wide + 2 portrait -->
+        <div class="fun-photo fm-wide">
+          <img src="uploads/B8FC4F5A-2C21-413B-9B54-4186102EB128_1_105_c.jpeg" alt="Zion National Park"/>
+        </div>
+        <div class="fun-photo">
+          <img src="uploads/C47E2527-D985-4C19-BA71-C2478D4DC98B_4_5005_c.jpeg" alt="Hot air balloons Cappadocia"/>
+        </div>
+        <div class="fun-photo">
+          <img src="uploads/59D397EA-14DA-4851-8961-6536D8E52053_4_5005_c.jpeg" alt="Mountain ocean view"/>
+        </div>
+        <!-- Row 2: 4 equal -->
+        <div class="fun-photo">
+          <img src="uploads/D05C9EC0-B38C-4024-839E-077E83C4658B_1_105_c.jpeg" alt="Night sky stars"/>
+        </div>
+        <div class="fun-photo">
+          <img src="uploads/C253A657-683B-4A71-B606-E0DBD0DA3E2D_1_105_c.jpeg" alt="Misty mountains"/>
+        </div>
+        <div class="fun-photo">
+          <img src="uploads/C7934798-20EE-4D44-9D83-55229A405146_1_105_c.jpeg" alt="Yosemite Half Dome"/>
+        </div>
+        <div class="fun-photo">
+          <img src="uploads/D6873BC6-B7BC-49E9-A0AF-317E6C36C222_1_102_o.jpeg" alt="Scuba diving rainbow"/>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact" style="background-color: rgb(251, 250, 246);">
+      <div class="contact-inner reveal">
+        <div class="section-tag"><span></span> Let's Connect</div>
+        <h2>Open to new<br><em>opportunities</em></h2>
+        <p>I'm always happy to chat about research, collaborate on interesting problems, or just connect with fellow practitioners. Drop me a line — I respond to every message.</p>
+        <div class="contact-links">
+          <a href="mailto:ritikakhosla4@gmail.com" class="contact-link cl-primary">✉️ Send an Email</a>
+          <a href="https://www.linkedin.com/in/ritikho/" class="contact-link cl-outline" target="_blank">LinkedIn →</a>
+        </div>
+      </div>
+    </section>
+ 
+    <footer>
+      <span>© 2025 Ritika Khosla · San Francisco, CA</span>
+      <span>UX Researcher · <a href="mailto:ritikakhosla4@gmail.com">ritikakhosla4@gmail.com</a></span>
+    </footer>
+  </div><!-- /view-home -->
+ 
+ 
+  <!-- ══════════ CASE: SUITEWORLD ══════════ -->
+  <div id="view-suiteworld" class="view cs-view">
+    <span class="cs-back" onclick="goHome()">Back to Work</span>
+    <div class="cs-hero">
+      <div class="cs-hero-inner">
+        <div class="cs-meta">
+          <span class="cs-tag cs-tag-method">Usability Testing</span>
+          <span class="cs-tag cs-tag-method">In-person Research</span>
+          <span class="cs-tag cs-tag-org">Oracle</span>
+          <span class="cs-tag cs-tag-year">Sep 2024</span>
+        </div>
+        <h1>UX Labs at <em>SuiteWorld</em></h1>
+        <p class="cs-hero-desc">Designing and facilitating in-person design feedback sessions at Oracle's flagship annual conference to gather qualitative insights from real enterprise users.</p>
+        <div class="cs-stats">
+          <div><div class="cs-stat-label">Role</div><div class="cs-stat-value">Lead Researcher &amp; Facilitator</div></div>
+          <div><div class="cs-stat-label">Methods</div><div class="cs-stat-value">Usability Testing · Think-aloud</div></div>
+          <div><div class="cs-stat-label">Outcome</div><div class="cs-stat-value">Product roadmap impact</div></div>
+          <div><div class="cs-stat-label">Context</div><div class="cs-stat-value">Conference · In-person</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">The Challenge</div>
+        <h3>Getting feedback from enterprise users — at scale, in person</h3>
+        <p>SuiteWorld is Oracle's largest annual conference, bringing together thousands of NetSuite customers. For the UX team, it's a rare opportunity to access a concentrated group of real enterprise users in one place. The challenge was designing a research experience that could run continuously across multiple days, generating actionable insights without disrupting conference attendees.</p>
+        <div class="cs-fill-note">✏️ <strong>Fill in:</strong> Add specific details here — how many sessions did you run? Which product areas were tested? What was the setup like?</div>
+      </div>
+ 
+      <div class="cs-section">
+        <div class="cs-section-label">Research Approach</div>
+        <h3>A pop-up UX lab in the middle of a conference floor</h3>
+        <p>I designed a moderated usability testing protocol optimized for a conference environment — sessions short enough to fit between talks, but structured enough to yield reliable data. I recruited participants on-site, screened for relevant user personas, and ran back-to-back sessions throughout the event.</p>
+        <p>Each session used a think-aloud protocol, with participants narrating their experience as they interacted with current and prototype features. I coordinated with the product and design team in real time so that interesting findings could be discussed same-day.</p>
+        <div class="cs-callout"><strong>The cross-functional angle:</strong> Rather than running research in isolation, I brought product managers and designers into the observation room. Watching users struggle — live — is far more persuasive than any research report.</div>
+        <div class="cs-fill-note">✏️ <strong>Fill in:</strong> What specific features or flows were tested? What tools did you use to capture data?</div>
+      </div>
+ 
+      <div class="cs-section">
+        <div class="cs-section-label">Key Findings</div>
+        <h3>What users actually told us</h3>
+        <div class="cs-finding-grid">
+          <div class="cs-finding">
+            <div class="cs-finding-num">01</div>
+            <h4>Navigation confusion in complex workflows</h4>
+            <p>Users consistently struggled to locate key features within multi-step enterprise workflows, suggesting the information architecture needed restructuring.</p>
+          </div>
+          <div class="cs-finding">
+            <div class="cs-finding-num">02</div>
+            <h4>Terminology mismatches</h4>
+            <p>Several labels and terms in the UI didn't match how users described their own tasks — a classic findability problem rooted in internal vs. user language.</p>
+          </div>
+          <div class="cs-finding">
+            <div class="cs-finding-num">03</div>
+            <h4>High confidence in core features</h4>
+            <p>The core reporting and dashboard features performed well, with users expressing strong satisfaction once they located them.</p>
+          </div>
+          <div class="cs-finding">
+            <div class="cs-finding-num">04</div>
+            <h4>Mobile expectations rising</h4>
+            <p>Multiple enterprise users expressed surprise that certain tasks required desktop access, signalling growing expectation for mobile parity.</p>
+          </div>
+        </div>
+        <div class="cs-fill-note">✏️ <strong>Fill in:</strong> Replace these with your actual findings from SuiteWorld. Add any quotes that stood out.</div>
+      </div>
+ 
+      <div class="cs-section">
+        <div class="cs-section-label">Impact</div>
+        <h3>From conference floor to product roadmap</h3>
+        <p>The findings were synthesized into a prioritized insight report delivered to the product and design team within a week of the conference. Several usability issues identified at SuiteWorld were directly incorporated into the subsequent sprint planning cycle.</p>
+        <div class="cs-impact-grid">
+          <div class="cs-impact-card"><span class="cs-impact-num">✏️</span><span class="cs-impact-label">Sessions conducted — fill in your number</span></div>
+          <div class="cs-impact-card"><span class="cs-impact-num">✏️</span><span class="cs-impact-label">Insights surfaced — fill in</span></div>
+          <div class="cs-impact-card"><span class="cs-impact-num">↗</span><span class="cs-impact-label">Roadmap items influenced</span></div>
+        </div>
+        <div class="cs-fill-note">✏️ <strong>Fill in:</strong> Add specific numbers — sessions run, participants, insights generated, roadmap items influenced.</div>
+      </div>
+    </div>
+    <div class="cs-nav-footer">
+      <button class="cs-nav-btn" onclick="goHome()">← All Projects</button>
+      <button class="cs-nav-btn next" onclick="openCase('genai')">Next: GenAI Summaries →</button>
+    </div>
+  </div>
+ 
+  <!-- ══════════ CASE: GENAI ══════════ -->
+  <div id="view-genai" class="view cs-view">
+    <span class="cs-back" onclick="goHome()">Back to Work</span>
+    <div class="cs-hero">
+      <div class="cs-hero-inner">
+        <div class="cs-meta">
+          <span class="cs-tag cs-tag-method">Card Sort</span>
+          <span class="cs-tag cs-tag-method">Unmoderated Research</span>
+          <span class="cs-tag cs-tag-org">Oracle</span>
+          <span class="cs-tag cs-tag-year">Apr 2025</span>
+        </div>
+        <h1>Shaping <em>GenAI Summaries</em></h1>
+        <p class="cs-hero-desc">An unmoderated card sort study to uncover users' mental frameworks for GenAI-generated summaries — informing how the product team approached a high-stakes AI feature design decision.</p>
+        <div class="cs-stats">
+          <div><div class="cs-stat-label">Role</div><div class="cs-stat-value">Lead Researcher</div></div>
+          <div><div class="cs-stat-label">Methods</div><div class="cs-stat-value">Unmoderated Card Sort</div></div>
+          <div><div class="cs-stat-label">Outcome</div><div class="cs-stat-value">Informed GenAI feature design</div></div>
+          <div><div class="cs-stat-label">Context</div><div class="cs-stat-value">Remote · B2B Enterprise</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">The Challenge</div>
+        <h3>How do enterprise users mentally model AI-generated summaries?</h3>
+        <p>As Oracle integrated generative AI features into NetSuite, the product team faced a foundational question: how do enterprise users actually think about AI-generated content? Do they trust it? Do they expect it to be editable? Where does it belong in their workflow?</p>
+        <p>Without a clear understanding of users' mental models, any design decision risked creating friction or eroding trust in a feature with enormous potential.</p>
+        <div class="cs-fill-note">✏️ <strong>Fill in:</strong> Add specifics about which product area this related to and what the team's initial hypothesis was.</div>
+      </div>
+ 
+      <div class="cs-section">
+        <div class="cs-section-label">Research Approach</div>
+        <h3>An unmoderated card sort to reveal mental models at scale</h3>
+        <p>I designed an unmoderated card sort study to understand how users categorized different types of AI-generated summary content — which elements they expected to be static vs. editable, trusted vs. verified, primary vs. supplementary.</p>
+        <p>Using an unmoderated approach allowed me to reach a larger, more diverse sample of enterprise users across geographies and roles without requiring scheduling overhead. I carefully designed the card categories and instructions to elicit genuine mental model data rather than surface-level preferences.</p>
+        <div class="cs-callout"><strong>Why card sort for AI features?</strong> GenAI features are novel — users don't have established patterns to draw from. A card sort forces them to reveal their underlying assumptions rather than simply rating what's put in front of them.</div>
+        <div class="cs-fill-note">✏️ <strong>Fill in:</strong> What tool did you use? How many participants? How long did the study run?</div>
+      </div>
+ 
+      <div class="cs-section">
+        <div class="cs-section-label">Key Findings</div>
+        <h3>Surprising patterns in how users categorize AI content</h3>
+        <div class="cs-finding-grid">
+          <div class="cs-finding">
+            <div class="cs-finding-num">01</div>
+            <h4>Trust varied significantly by content type</h4>
+            <p>Users were more willing to trust AI summaries for factual/numerical data than for qualitative or interpretive content, suggesting layered trust tiers are needed.</p>
+          </div>
+          <div class="cs-finding">
+            <div class="cs-finding-num">02</div>
+            <h4>Editability was assumed, not optional</h4>
+            <p>Nearly all participants categorized AI summaries as a starting point, not a finished output — with strong expectation to edit or override.</p>
+          </div>
+          <div class="cs-finding">
+            <div class="cs-finding-num">03</div>
+            <h4>Placement matters more than labeling</h4>
+            <p>Where the summary appeared in the interface had more impact on perceived trustworthiness than how it was labeled as AI-generated.</p>
+          </div>
+          <div class="cs-finding">
+            <div class="cs-finding-num">04</div>
+            <h4>Role-based differences emerged</h4>
+            <p>Finance users and operations users organized content very differently, pointing to a need for role-aware AI summary customization.</p>
+          </div>
+        </div>
+        <div class="cs-fill-note">✏️ <strong>Fill in:</strong> Replace with your actual card sort findings. What patterns surprised you most?</div>
+      </div>
+ 
+      <div class="cs-section">
+        <div class="cs-section-label">Impact</div>
+        <h3>Research that shaped the AI design direction</h3>
+        <p>The card sort findings provided the product team with a clear, evidence-based framework for how to design GenAI summary features — informing decisions around editability, placement, trust signals, and role-based customization.</p>
+        <div class="cs-fill-note">✏️ <strong>Fill in:</strong> What specific design decisions changed as a result? Were any features added, removed, or modified based on your findings?</div>
+      </div>
+    </div>
+    <div class="cs-nav-footer">
+      <button class="cs-nav-btn" onclick="openCase('suiteworld')">← UX Labs at SuiteWorld</button>
+      <button class="cs-nav-btn next" onclick="openCase('democratization')">Next: Research Democratization →</button>
+    </div>
+  </div>
+ 
+  <!-- ══════════ CASE: DEMOCRATIZATION ══════════ -->
+  <div id="view-democratization" class="view cs-view">
+    <span class="cs-back" onclick="goHome()">Back to Work</span>
+    <div class="cs-hero">
+      <div class="cs-hero-inner">
+        <div class="cs-meta">
+          <span class="cs-tag cs-tag-method">Field Research</span>
+          <span class="cs-tag cs-tag-method">Workshop Facilitation</span>
+          <span class="cs-tag cs-tag-org">Oracle</span>
+          <span class="cs-tag cs-tag-year">Jun 2025</span>
+        </div>
+        <h1>Research <em>Democratization</em> Program</h1>
+        <p class="cs-hero-desc">Establishing a quarterly field visit program to embed user empathy across Oracle's cross-functional teams — moving research out of the UX silo and into the organization's DNA.</p>
+        <div class="cs-stats">
+          <div><div class="cs-stat-label">Role</div><div class="cs-stat-value">Program Lead</div></div>
+          <div><div class="cs-stat-label">Methods</div><div class="cs-stat-value">Field Research · Facilitation</div></div>
+          <div><div class="cs-stat-label">Outcome</div><div class="cs-stat-value">Org-wide empathy program</div></div>
+          <div><div class="cs-stat-label">Context</div><div class="cs-stat-value">Oracle · Redwood Shores</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">The Challenge</div>
+        <h3>Research insights that never left the research team</h3>
+        <p>One of the most persistent challenges in enterprise UX is research that generates insights but fails to change behavior across the org. Product managers, engineers, and marketers rarely have direct contact with users — leaving them to rely on secondhand summaries or their own assumptions.</p>
+        <p>The goal of this program was to change that structural problem — not just produce better research, but fundamentally change how non-researchers at Oracle experienced user empathy.</p>
+        <div class="cs-fill-note">✏️ <strong>Fill in:</strong> What was the specific trigger for this program? Was there a moment or problem that prompted you to propose it?</div>
+      </div>
+ 
+      <div class="cs-section">
+        <div class="cs-section-label">Research Approach</div>
+        <h3>Quarterly field visits — with cross-functional teams, not just researchers</h3>
+        <p>I designed and led a quarterly program where cross-functional teams — including PMs, engineers, and designers — joined structured field visits to observe and interact with real users in their working environment.</p>
+        <p>Each visit was carefully facilitated: I prepared observation guides tailored to each attendee's role so they knew what to look for, ran live debrief sessions immediately after visits while observations were fresh, and translated the raw experience into structured insights the team could act on.</p>
+        <div class="cs-callout"><strong>The behavioral science angle:</strong> There's a significant difference between reading a research finding and watching a user struggle in real time. My Penn training in behavioral decision-making informed how I structured these sessions to maximize emotional impact — and therefore behavior change — among the cross-functional attendees.</div>
+        <div class="cs-fill-note">✏️ <strong>Fill in:</strong> How many people participated across the program? Which teams were involved? How many visits were conducted?</div>
+      </div>
+ 
+      <div class="cs-section">
+        <div class="cs-section-label">Key Findings</div>
+        <h3>What changed when teams went into the field</h3>
+        <div class="cs-finding-grid">
+          <div class="cs-finding">
+            <div class="cs-finding-num">01</div>
+            <h4>Assumptions dissolved quickly</h4>
+            <p>Many PMs and engineers reported that field visits overturned long-held assumptions about how enterprise users actually performed tasks day-to-day.</p>
+          </div>
+          <div class="cs-finding">
+            <div class="cs-finding-num">02</div>
+            <h4>Empathy drove faster buy-in</h4>
+            <p>Teams who had participated in field visits showed noticeably faster alignment during research readout sessions — they already understood the "why."</p>
+          </div>
+          <div class="cs-finding">
+            <div class="cs-finding-num">03</div>
+            <h4>Research requests increased</h4>
+            <p>After field visits, PMs began proactively requesting user research earlier in their planning cycles — a leading indicator of cultural change.</p>
+          </div>
+          <div class="cs-finding">
+            <div class="cs-finding-num">04</div>
+            <h4>Cross-team language improved</h4>
+            <p>Teams developed shared vocabulary around user needs, reducing friction in cross-functional conversations about product direction.</p>
+          </div>
+        </div>
+        <div class="cs-fill-note">✏️ <strong>Fill in:</strong> Replace with your real outcomes. Did you run any surveys or collect feedback from participants?</div>
+      </div>
+ 
+      <div class="cs-section">
+        <div class="cs-section-label">Impact</div>
+        <h3>Research as an org-wide capability, not a department</h3>
+        <p>The program established a repeatable, scalable model for embedding user empathy across Oracle's product teams. By making field research a shared cross-functional experience rather than a UX-only activity, the program shifted how the org valued and acted on user insights.</p>
+        <div class="cs-fill-note">✏️ <strong>Fill in:</strong> Any quantitative outcomes? NPS change, research request volume, stakeholder feedback quotes?</div>
+      </div>
+    </div>
+    <div class="cs-nav-footer">
+      <button class="cs-nav-btn" onclick="openCase('genai')">← Shaping GenAI Summaries</button>
+      <button class="cs-nav-btn next" onclick="openCase('netsuite')">Next: NetSuite Redesign →</button>
+    </div>
+  </div>
+ 
+  <!-- ══════════ CASE: NETSUITE REDESIGN ══════════ -->
+  <div id="view-netsuite" class="view cs-view">
+    <span class="cs-back" onclick="goHome()">Back to Work</span>
+    <div class="cs-hero">
+      <div class="cs-hero-inner">
+        <div class="cs-meta">
+          <span class="cs-tag cs-tag-method">Competitive Analysis</span>
+          <span class="cs-tag cs-tag-method">User Interviews</span>
+          <span class="cs-tag cs-tag-method">Heuristic Evaluation</span>
+          <span class="cs-tag cs-tag-org">Oracle NetSuite</span>
+          <span class="cs-tag cs-tag-year">2024</span>
+        </div>
+        <h1>NetSuite Website <em>Redesign</em></h1>
+        <p class="cs-hero-desc">End-to-end research to identify navigation, messaging, and conversion gaps in NetSuite's marketing website — culminating in a strategic redesign recommendation presented directly to the Marketing Group Vice President.</p>
+        <div class="cs-stats">
+          <div><div class="cs-stat-label">Role</div><div class="cs-stat-value">Lead Researcher</div></div>
+          <div><div class="cs-stat-label">Methods</div><div class="cs-stat-value">Competitive Analysis · Interviews · Heuristics</div></div>
+          <div><div class="cs-stat-label">Stakeholder</div><div class="cs-stat-value">Marketing GVP</div></div>
+          <div><div class="cs-stat-label">Context</div><div class="cs-stat-value">Oracle NetSuite · Marketing</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="cs-body">
+      <div class="cs-section">
+        <div class="cs-section-label">The Challenge</div>
+        <h3>A website that wasn't converting — but nobody knew why</h3>
+        <p>NetSuite's marketing website serves as the top-of-funnel entry point for enterprise buyers — a high-stakes surface where first impressions directly impact revenue. Despite significant traffic, internal stakeholders had growing concerns about whether the site was effectively communicating NetSuite's value to its target audience of mid-market and enterprise buyers.</p>
+        <p>The ask was to bring a research-driven lens to the website: understand where it was falling short, why, and what a better experience could look like.</p>
+        <div class="cs-fill-note">✏️ <strong>Fill in:</strong> What were the specific business signals that prompted this project? (e.g. drop-off rates, stakeholder concerns, competitor pressure)</div>
+      </div>
+ 
+      <div class="cs-section">
+        <div class="cs-section-label">Research Approach</div>
+        <h3>A triangulated approach: users, heuristics, and the competitive landscape</h3>
+        <p>I designed a multi-method research plan to approach the problem from three angles simultaneously.</p>
+        <p><strong>Competitive analysis</strong> first — I conducted a systematic review of how NetSuite's direct competitors (Sage Intacct, Microsoft Dynamics, SAP Business One) structured their marketing websites, mapped their messaging hierarchies, and identified patterns in how they addressed enterprise buyer concerns around trust, complexity, and ROI.</p>
+        <p><strong>Heuristic evaluation</strong> — I assessed the existing NetSuite site against established UX principles, documenting friction points in navigation, information hierarchy, call-to-action clarity, and page load flows that were likely causing drop-off.</p>
+        <p><strong>User interviews</strong> — I spoke with prospective enterprise buyers and existing customers to understand how they navigated the site, what information they looked for, and where their confidence in the product either increased or eroded.</p>
+        <div class="cs-callout"><strong>Presenting to a GVP:</strong> Knowing this research would reach the Marketing Group Vice President, I structured the synthesis to lead with business impact — not just usability findings. Every insight was framed in terms of its downstream effect on pipeline, conversion, or brand perception.</div>
+        <div class="cs-fill-note">✏️ <strong>Fill in:</strong> How many competitors did you analyze? How many users did you interview? What tools or frameworks did you use?</div>
+      </div>
+ 
+      <div class="cs-section">
+        <div class="cs-section-label">Key Findings</div>
+        <h3>Where the site was losing enterprise buyers</h3>
+        <div class="cs-finding-grid">
+          <div class="cs-finding">
+            <div class="cs-finding-num">01</div>
+            <h4>Value proposition was buried</h4>
+            <p>The site led with product features rather than business outcomes — misaligned with how enterprise buyers make decisions. Competitors consistently led with ROI and business transformation narratives.</p>
+          </div>
+          <div class="cs-finding">
+            <div class="cs-finding-num">02</div>
+            <h4>Navigation didn't reflect buyer journeys</h4>
+            <p>The site's IA was organized by product category, but enterprise buyers think in terms of their own business problems. Navigation created friction for self-directed exploration.</p>
+          </div>
+          <div class="cs-finding">
+            <div class="cs-finding-num">03</div>
+            <h4>Trust signals were underweighted</h4>
+            <p>Enterprise buyers — especially at larger companies — look for proof of scale and reliability before engaging sales. Case studies, certifications, and customer logos were hard to find.</p>
+          </div>
+          <div class="cs-finding">
+            <div class="cs-finding-num">04</div>
+            <h4>CTAs created premature pressure</h4>
+            <p>Calls to action skewed heavily toward "request a demo" — a high-commitment ask for users still in early research. Lower-friction conversion paths were largely absent.</p>
+          </div>
+        </div>
+        <div class="cs-fill-note">✏️ <strong>Fill in:</strong> Replace with your actual findings. Add any standout quotes from buyer interviews.</div>
+      </div>
+ 
+      <div class="cs-section">
+        <div class="cs-section-label">The Recommendation</div>
+        <h3>A redesign strategy built around the buyer journey</h3>
+        <p>I synthesized the research into a strategic redesign recommendation organized around three core principles: lead with business outcomes not features, restructure navigation around buyer problems not product categories, and introduce a layered conversion strategy that meets buyers at their level of intent.</p>
+        <p>The recommendation included annotated wireframe concepts, a prioritized list of changes by impact vs. effort, and a competitive benchmarking summary for context.</p>
+        <div class="cs-fill-note">✏️ <strong>Fill in:</strong> Add any wireframes or mockups you created, specific page-level recommendations, and how the GVP responded in the presentation.</div>
+      </div>
+ 
+      <div class="cs-section">
+        <div class="cs-section-label">Impact</div>
+        <h3>From research to the executive table</h3>
+        <p>The project culminated in a direct presentation to Oracle NetSuite's Marketing Group Vice President — a signal that research findings had clear strategic, not just tactical, value. The research reframed the conversation from "what should we redesign" to "how should enterprise buyers experience NetSuite."</p>
+        <div class="cs-impact-grid">
+          <div class="cs-impact-card"><span class="cs-impact-num">GVP</span><span class="cs-impact-label">Presented to Marketing Group VP directly</span></div>
+          <div class="cs-impact-card"><span class="cs-impact-num">3</span><span class="cs-impact-label">Research methods triangulated</span></div>
+          <div class="cs-impact-card" style="background:var(--accent)"><span class="cs-impact-num">✏️</span><span class="cs-impact-label">Add your key outcome metric here</span></div>
+        </div>
+        <div class="cs-fill-note">✏️ <strong>Fill in:</strong> Were any of your recommendations adopted? Did this lead to follow-up work? Add a reflection on what you'd do differently.</div>
+      </div>
+    </div>
+    <div class="cs-nav-footer">
+      <button class="cs-nav-btn" onclick="openCase('democratization')">← Research Democratization</button>
+      <button class="cs-nav-btn next" onclick="openCase('suiteworld')">Back to first project →</button>
+    </div>
+  </div>
+ 
+  <script>
+    // ── ROUTER ──
+    const cases = ['suiteworld','genai','democratization','netsuite'];
+ 
+    function showView(id) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById('view-' + id).classList.add('active');
+      window.scrollTo({ top: 0 });
+    }
+ 
+    function openCase(id) {
+      showView(id);
+      window.location.hash = id;
+    }
+ 
+    function goHome() {
+      showView('home');
+      window.location.hash = '';
+      setTimeout(initReveal, 100);
+    }
+
+    function scrollTo(selector) {
+      const el = document.querySelector(selector);
+      if (el) {
+        const top = el.getBoundingClientRect().top + window.pageYOffset - 80;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    }
+ 
+    // Handle direct hash navigation
+    window.addEventListener('hashchange', () => {
+      const hash = window.location.hash.replace('#','');
+      if (cases.includes(hash)) showView(hash);
+      else goHome();
+    });
+ 
+    // On load
+    window.addEventListener('load', () => {
+      const hash = window.location.hash.replace('#','');
+      if (cases.includes(hash)) showView(hash);
+      initReveal();
+    });
+ 
+    // ── SCROLL REVEAL ──
+    function initReveal() {
+      const reveals = document.querySelectorAll('#view-home .reveal');
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+        });
+      }, { threshold: 0.1 });
+      reveals.forEach(el => { el.classList.remove('visible'); obs.observe(el); });
+    }
+  </script>
+
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>

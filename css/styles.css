@@ -108,7 +108,7 @@
     .hero {
       min-height: 88vh;
       padding: 9rem 5rem 5rem;
-      display: grid; grid-template-columns: 1fr 0.72fr;
+      display: grid; grid-template-columns: 1fr 0.55fr;
       gap: 5rem; align-items: center; position: relative;
       background: var(--bg);
     }

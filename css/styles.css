@@ -275,7 +275,7 @@
     .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; margin-top: 3.5rem; }
     .about-bio { font-size: 1rem; color: var(--mid); line-height: 1.85; margin-top: 1.5rem; }
     .about-bio strong { color: var(--ink); font-weight: 600; }
-    .exp-list { margin-top: 2.5rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+    .exp-list { margin-top: 2.5rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
     .exp-item {
       background: var(--bg); border: 1px solid var(--border);
       border-radius: 14px; padding: 1.5rem 1.4rem;

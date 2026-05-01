@@ -25,6 +25,16 @@
         window.scrollTo({ top, behavior: 'smooth' });
       }
     }
+
+    function navTo(selector) {
+      const homeActive = document.getElementById('view-home').classList.contains('active');
+      if (homeActive) {
+        smoothScrollTo(selector);
+      } else {
+        goHome();
+        setTimeout(() => smoothScrollTo(selector), 300);
+      }
+    }
  
     // Handle direct hash navigation
     window.addEventListener('hashchange', () => {

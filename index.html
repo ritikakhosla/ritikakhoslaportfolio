@@ -443,10 +443,10 @@
           <span class="cs-tag cs-tag-year">Apr–May 2025</span>
         </div>
         <h1>Shaping <em>GenAI Summaries</em></h1>
-        <p class="cs-hero-desc">An unmoderated closed card sort and ranking survey to identify what information users want in a GenAI-powered customer record summary — directly shaping the June 2025 feature release.</p>
+        <p class="cs-hero-desc">An unmoderated closed card sort and ranking survey to identify what information users want in a GenAI-powered customer record summary. This directly shaped the content and experience for the June 2025 feature release.</p>
         <div class="cs-stats">
           <div><div class="cs-stat-label">Role</div><div class="cs-stat-value">Lead Researcher</div></div>
-          <div><div class="cs-stat-label">Methods</div><div class="cs-stat-value">Card Sort · Survey · Ranking</div></div>
+          <div><div class="cs-stat-label">Methods</div><div class="cs-stat-value">Closed Card Sort · Unmoderated Survey · Ranking</div></div>
           <div><div class="cs-stat-label">Team</div><div class="cs-stat-value">1 PM · 1 Designer · 2 Engineers · 2 Tech Writers</div></div>
           <div><div class="cs-stat-label">Timeline</div><div class="cs-stat-value">2 months · Apr–May 2025</div></div>
         </div>
@@ -455,15 +455,15 @@
     <div class="cs-body">
       <div class="cs-section">
         <div class="cs-section-label">Background</div>
-        <h3>A GenAI feature with no user grounding — yet</h3>
-        <p>NetSuite's Customer Record is a central hub for sales representatives — where they document, manage, and review all interactions with a customer. In an upcoming June 2025 release, the team was adding a GenAI-powered summary to the page, designed to give reps a condensed view of key information and improve efficiency.</p>
+        <h3>A novel GenAI feature for NetSuite's Customer Record pages</h3>
+        <p>NetSuite's Customer Record is one of the most used pages in our CRM, where sales representatives document, manage, and review all interactions with a customer. In an upcoming June 2025 release, the team was adding a GenAI-powered summary to the page, designed to give reps a condensed view of key information and improve efficiency.</p>
         <p>The feature addressed a known user need. But without research, the team had no clear answer to a critical question: <strong>what information do users actually want in that summary, and how should it be ordered?</strong></p>
       </div>
 
       <div class="cs-section">
         <div class="cs-section-label">Scoping</div>
         <h3>Navigating tight timelines with a lean, high-impact method</h3>
-        <p>Team availability was limited due to an upcoming release season. I implemented a RACI framework to set clear expectations across stakeholders, then collaborated with the PM to apply MoSCoW prioritization — distinguishing what we <em>must</em> know before June from what could wait for a later cycle.</p>
+        <p>Team availability was limited due to an upcoming release season. I implemented a RACI framework to set clear expectations across stakeholders, then collaborated with the PM to apply MoSCoW prioritization. This helped prioritize what we <em>must</em> know before June, from what could wait for a later cycle.</p>
         <div class="cs-callout"><strong>Research Goal:</strong> Identify the information most valuable to customers in a GenAI-generated summary on the Customer Record page, and determine how it should be presented for clarity and efficiency.</div>
         <p>Given recruitment constraints and organizational priorities, I selected a quick but high-value approach: an unmoderated survey via DScout combining a <strong>closed card sort</strong> (to learn what content users want) and a <strong>ranking question</strong> (to determine preferred order and presentation).</p>
       </div>
@@ -477,7 +477,7 @@
           <div class="cs-finding">
             <div class="cs-finding-num">01</div>
             <h4>Closed card sort</h4>
-            <p>Participants sorted information types into "must have," "nice to have," and "not needed" — revealing clear consensus and disagreement areas.</p>
+            <p>Participants sorted information types into "must have," "nice to have," and "not needed"</p>
           </div>
           <div class="cs-finding">
             <div class="cs-finding-num">02</div>
@@ -487,12 +487,12 @@
           <div class="cs-finding">
             <div class="cs-finding-num">03</div>
             <h4>Open-ended questions</h4>
-            <p>Participants described what they liked, disliked, or found missing in an example summary — adding qualitative texture to quantitative patterns.</p>
+            <p>Participants described what they liked, disliked, or found missing in an example summary. This added a qualitative layer to understand users' reasoning for the quantitative patterns.</p>
           </div>
           <div class="cs-finding">
             <div class="cs-finding-num">04</div>
             <h4>DScout agreement matrix</h4>
-            <p>I used DScout's agreement matrix to assess the percentage of participants placing each item in the same category — providing statistical confidence for design decisions.</p>
+            <p>I used DScout's agreement matrix to assess the percentage of participants placing each item in the same category. This provided statistical confidence for the recommended design and content decisions.</p>
           </div>
         </div>
       </div>
@@ -504,43 +504,43 @@
           <div class="cs-finding">
             <div class="cs-finding-num">01</div>
             <h4>Transactional data is non-negotiable</h4>
-            <p>68% of users identified Sales Orders, Invoices, Payments, and Balance Information as must-have — anchoring the summary for daily decision-making.</p>
+            <p>68% of users identified Sales Orders, Invoices, Payments, and Balance Information as must-haves. This signaled key information needed for their daily decision-making.</p>
           </div>
           <div class="cs-finding">
             <div class="cs-finding-num">02</div>
             <h4>Support cases: helpful, not required</h4>
-            <p>Only 28% labeled Support Cases as essential, but 72% found them valuable when present — signaling they should be included but not front-loaded.</p>
+            <p>Only 28% labeled Support Cases as essential, but 72% found them valuable when present, suggesting they should be included but not front-loaded.</p>
           </div>
           <div class="cs-finding">
             <div class="cs-finding-num">03</div>
             <h4>Financial &amp; performance data leads</h4>
-            <p>Users consistently ranked Billings/Financials and Sales Performance highest — these should appear first in any summary layout.</p>
+            <p>Users consistently ranked Billings/Financials and Sales Performance highest. This influenced the backend prompt to ensure these appeared first in any summary layout.</p>
           </div>
           <div class="cs-finding">
             <div class="cs-finding-num">04</div>
             <h4>Communication &amp; activity are secondary</h4>
-            <p>No participants ranked Communication or Activity data first — contextually useful, but should not dominate the summary view.</p>
+            <p>No participants ranked Communication or Activity data first. This suggests this information is useful in context, but not needed in the summary view.</p>
           </div>
         </div>
       </div>
 
       <div class="cs-section">
         <div class="cs-section-label">Impact</div>
-        <h3>User preferences shipped in June — and a new method adopted org-wide.</h3>
+        <h3>User preferences shipped in June — and a new method was adopted org-wide.</h3>
         <p>The June release incorporated these insights directly: the backend prompt was structured to surface Financial and Performance information first, reflecting user preferences. Beyond the feature itself, this study had lasting organizational impact.</p>
         <div class="cs-impact-grid">
           <div class="cs-impact-card"><span class="cs-impact-num">n=25</span><span class="cs-impact-label">Participants — statistically meaningful for card sort</span></div>
           <div class="cs-impact-card"><span class="cs-impact-num">Jun '25</span><span class="cs-impact-label">Feature shipped with user-grounded content structure</span></div>
-          <div class="cs-impact-card"><span class="cs-impact-num">50+</span><span class="cs-impact-label">Researchers reached via internal Craft of Research session</span></div>
+          <div class="cs-impact-card"><span class="cs-impact-num">15+</span><span class="cs-impact-label">Researchers reached via internal Craft of Research session</span></div>
         </div>
-        <div class="cs-callout"><strong>Organizational first:</strong> This was the first study at Oracle NetSuite's UXR team to use an unmoderated card sort. I led a knowledge-sharing session in the internal "Craft of Research" series — reaching 15+ researchers and increasing awareness of the method across a team of 50.</div>
+        <div class="cs-callout"><strong>Organizational first:</strong> This was the first study at Oracle NetSuite's UXR team to use an unmoderated card sort. I led a knowledge-sharing session in the internal "Craft of Research" series to an audience of 15+ researchers.</div>
       </div>
 
       <div class="cs-section">
         <div class="cs-section-label">Reflections</div>
         <h3>What I learned</h3>
-        <div class="cs-callout"><strong>On non-traditional methods:</strong> Short timelines and limited Research Ops bandwidth pushed me toward an unmoderated card sort — a non-traditional choice for our team. That constraint became an opportunity: it moved quickly, delivered statistically meaningful signal, and introduced a new method to the org.</div>
-        <div class="cs-callout"><strong>On survey fatigue:</strong> Combining a card sort and ranking in one survey risked participant fatigue and superficial responses. Running a moderated pilot and building an interpretation checklist for note-takers was essential — reinforcing the value of moderated testing before any unmoderated launch.</div>
+        <div class="cs-callout"><strong>On non-traditional methods:</strong> Short timelines and limited Research Ops bandwidth pushed me toward an unmoderated card sort — a non-traditional choice for our team. That constraint became an opportunity: it moved quickly, delivered a statistically meaningful signal, and introduced a new method to the organization.</div>
+        <div class="cs-callout"><strong>On survey fatigue:</strong> Combining a card sort and ranking in one survey risked participant fatigue and superficial responses. Running a moderated pilot and building an interpretation checklist for note-takers was essential. This reinforced the value of moderated testing before any unmoderated launch.</div>
       </div>
     </div>
     <div class="cs-nav-footer">

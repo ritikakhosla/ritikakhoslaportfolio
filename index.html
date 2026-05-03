@@ -23,7 +23,24 @@
       <li><a href="Khosla_Resume.pdf" target="_blank">Resume</a></li>
       <li><a onclick="navTo('#contact')" class="nav-cta">Say Hello</a></li>
     </ul>
+    <button class="nav-hamburger" onclick="toggleMobileNav()" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+
+  <!-- MOBILE NAV DRAWER -->
+  <div class="mobile-nav-overlay" onclick="closeMobileNav()"></div>
+  <div class="mobile-nav-drawer" id="mobileNavDrawer">
+    <button class="mobile-nav-close" onclick="closeMobileNav()" aria-label="Close menu">✕</button>
+    <ul>
+      <li><a onclick="closeMobileNav(); navTo('#work')">Selected Work</a></li>
+      <li><a onclick="closeMobileNav(); navTo('#methods')">Values</a></li>
+      <li><a onclick="closeMobileNav(); navTo('#about')">About Me</a></li>
+      <li><a onclick="closeMobileNav(); navTo('#fun')">Beyond Research</a></li>
+      <li><a href="Khosla_Resume.pdf" target="_blank" onclick="closeMobileNav()">Resume</a></li>
+      <li><a onclick="closeMobileNav(); navTo('#contact')" class="mobile-nav-cta">Say Hello</a></li>
+    </ul>
+  </div>
  
   <!-- ══════════ HOME VIEW ══════════ -->
   <div id="view-home" class="view active">
@@ -734,6 +751,16 @@
   </div>
  
     <script src="js/main.js"></script>
+  <script>
+    function toggleMobileNav() {
+      document.getElementById('mobileNavDrawer').classList.toggle('open');
+      document.querySelector('.mobile-nav-overlay').classList.toggle('open');
+    }
+    function closeMobileNav() {
+      document.getElementById('mobileNavDrawer').classList.remove('open');
+      document.querySelector('.mobile-nav-overlay').classList.remove('open');
+    }
+  </script>
 
 
   

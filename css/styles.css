@@ -54,6 +54,50 @@
       padding: 0.5rem 1.3rem; border-radius: 2rem;
     }
     .nav-cta:hover { opacity: 0.82 !important; }
+    .nav-hamburger {
+      display: none; flex-direction: column; justify-content: center; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--ink); border-radius: 2px;
+      transition: all 0.25s;
+    }
+
+    /* Mobile nav overlay + drawer */
+    .mobile-nav-overlay {
+      display: none; position: fixed; inset: 0; z-index: 150;
+      background: rgba(26,43,56,0.35); backdrop-filter: blur(2px);
+    }
+    .mobile-nav-drawer {
+      position: fixed; top: 0; right: 0; bottom: 0; z-index: 200;
+      width: 72vw; max-width: 300px;
+      background: var(--white); box-shadow: -8px 0 32px rgba(26,43,56,0.12);
+      padding: 2rem 2rem 3rem;
+      display: flex; flex-direction: column;
+      transform: translateX(100%); transition: transform 0.3s ease;
+    }
+    .mobile-nav-drawer.open { transform: translateX(0); }
+    .mobile-nav-overlay.open { display: block; }
+    .mobile-nav-close {
+      align-self: flex-end; background: none; border: none;
+      font-size: 1.2rem; color: var(--mid); cursor: pointer; margin-bottom: 2rem;
+    }
+    .mobile-nav-drawer ul { list-style: none; display: flex; flex-direction: column; gap: 0; }
+    .mobile-nav-drawer ul li a {
+      display: block; padding: 1rem 0;
+      font-size: 1rem; font-weight: 500; color: var(--ink);
+      text-decoration: none; letter-spacing: 0.04em;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .mobile-nav-drawer ul li:last-child a { border-bottom: none; }
+    .mobile-nav-cta {
+      margin-top: 1.5rem; display: inline-block !important;
+      background: var(--ink); color: white !important;
+      padding: 0.75rem 1.5rem !important; border-radius: 2rem;
+      text-align: center; border-bottom: none !important;
+    }
  
     /* ── SHARED BUTTONS ── */
     .btn {
@@ -445,6 +489,8 @@
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
       .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 4rem; gap: 3rem; }
       .hero-right { display: none; }
       section { padding: 4rem 1.5rem; }
